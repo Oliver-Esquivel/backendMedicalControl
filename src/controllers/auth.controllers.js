@@ -29,7 +29,7 @@ export const getUser = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
-//-> function the show patients
+//-> 
 export const getUserById = async (req, res) => {
 
     try {
@@ -65,7 +65,7 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
-//  -> function
+//  -> function for access the password and email
 export const signIn = async (req, res) => {
     try {
         const { username, password } = req.body
