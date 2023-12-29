@@ -143,7 +143,7 @@ export const dataClinic =  async (req , res) =>{
                 turn_work
         })
         const savedClinic = await newDataClinic.save()
-        res.status(201).json({savedClinic})
+        res.status(201).json({message: "Examen medico guardado" ,savedClinic})
     } catch (error) {
         req.status(500).json({message: "Error in data"})
     }
