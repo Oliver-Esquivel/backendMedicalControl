@@ -2,49 +2,28 @@ import mongoose, { Schema } from "mongoose";
 
 const formData = new Schema({
     examen_medico: String,
-    income: {
-        type: Date,
-        default: Date.now()
-    },
+    income: Date,
     period: String,
-    update_At: {
-        type: Date,
-        default: Date.now(),
-    },
+    update_At: Date,
     name_person: String,
     age:  Number,
     gender: String,
     edo_civil: String,
     turn: String,
-    date_birth: {
-        type: Date,
-        default: Date.now()
-    },
+    date_birth: Date,
     plant: String,
     type_contract: String,
     department: String,
     name_supervisor: String,
-    plant_ant: {
-        type: Date,
-        default: Date.now()
-    },
-    position_ant: {
-        type: Date,
-        default: Date.now()
-    },
-    position_Work: {
-        type: Date,
-        default: Date.now()
-    },
+    plant_ant: Date,
+    position_ant: Date,
+    position_Work: Date,
     domicile: String,
     place_where_work: String,
     work_how_long: String,
     exposed_agents: String,
     products_produces: String,
-    daily_hours_worked: {
-        type: Date,
-        default: Date.now
-    },
+    daily_hours_worked:Date,
     days_worked:  Number,
     break_fixed:  Number,
     turn_work: String,
