@@ -67,5 +67,5 @@ const formIllness = new Schema({
     skeletal_muscle: Boolean,
     psychiatrist_: Boolean,
 })
-export default mongoose.model('Personalpatologico', formIllness)
+export default mongoose.model('Personal_patologico', formIllness)
 

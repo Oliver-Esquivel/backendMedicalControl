@@ -69,4 +69,4 @@ const formData = new Schema({
     other_illness: Boolean
 })
 
-export default mongoose.model('examenMedico', formData)
+export default mongoose.model('examen_Medico', formData)

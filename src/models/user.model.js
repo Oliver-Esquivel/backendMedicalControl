@@ -5,17 +5,17 @@ import bcrypt from 'bcryptjs' //->
 const userSchema = new Schema({
     username :{
         type : String,
-        require : true, // require data complete
+        //require : true, // require data complete
         trim: true,     // eliminate the spaces
     },
     email : {
         type : String,
         trim : true,
-        unique : true, // valor unique 
+      //  unique : true, // valor unique 
     },
     password : {
         type : String,
-        require: true,
+        //require: true,
     }
 })
 //  -> ciframos la contraseña con 8 saltos

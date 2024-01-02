@@ -57,6 +57,4 @@ const GenitalesLaboratorio = new Schema({
 
 })
 
-export default mongoose.model('examenLaboratorioGenitales', GenitalesLaboratorio)
-
-
+export default mongoose.model('examen_Laboratorio_Genitales', GenitalesLaboratorio)

@@ -74,5 +74,5 @@ const PhysicalExploration = new Schema({
     exploration_note_abd: String
 })
 
-export default mongoose.model('exploracionFisica', PhysicalExploration)
+export default mongoose.model('exploracion_Fisica', PhysicalExploration)
 
