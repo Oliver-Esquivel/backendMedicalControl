@@ -4,15 +4,16 @@ import { dataClinic, deleteConsult, getConsult, getDataClinicById, updateConsult
 import { addIllness, dropIllness, getIllnessById } from "../controllers/authIllness.controllers.js";
 import { addPhysical, dropPhysical, getPhysicalById } from "../controllers/authPhysical.controller.js";
 import { addLaboratory, dropLaboratory, getLaboratory, getLaboratoryById } from "../controllers/authlaboratory.controller.js";
-// import formLogin from "../controllers/auth.controllers.js";
-// export the function 
+import { validateDataUser, validateToken} from "../middlewares/authMiddleware.js";
+
+
 const router = Router()
 
 //create de routes for access de petitions
-router.get('/' , getUser)       // --> Show data
+router.get('/', getUser)
 router.get('/:userId', getUserById) // --> search user id in bd
-router.post('/', formData) // --> create new register
-router.post('/singIn', signIn) //-> Controller signIn
+router.post('/',validateDataUser ,formData) // --> create new register
+router.post('/singIn', validateToken, signIn) //-> Controller signIn   ///validate token
 router.put('/:userId', updateUser) //  --> modify the register
 router.delete('/:userId', deleteUser) // --> eliminate the user
 
