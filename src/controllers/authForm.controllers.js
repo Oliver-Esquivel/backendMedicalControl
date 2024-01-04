@@ -149,15 +149,6 @@ export const dataClinic =  async (req , res) =>{
     }
 }
 
-// --> function the show patients
-export const getConsult = async(req, res) =>{
-    try {
-        const consult = await formServiceMedic.find()
-        res.status(200).json(consult)
-    } catch (error) {
-        res.status(500).json({message: error.message})
-    }
-}
 // --> yes function the show user  
 export const getDataClinicById = async (req, res) => {
     try {
@@ -167,20 +158,6 @@ export const getDataClinicById = async (req, res) => {
      res.status(200).json(consult)
     } catch (error) {
         res.status(500).json({message: error.message})
-    }
-}
-
-// --> Update data consult yes function
-export const updateConsult = async (req, res) => {
-    try {
-        const updateConsult = await formServiceMedic.findByIdAndUpdate(req.params.patientId, {
-            ...req.body
-        }, {
-            new: true
-        });
-        res.status(200).json(updateConsult);
-    } catch (error) {
-        res.status(500).json({message: error.message});
     }
 }
 

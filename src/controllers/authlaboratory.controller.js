@@ -46,15 +46,6 @@ export const addLaboratory = async (req, res) => {
     }
 };
 
-// --> Function the show laboratory
-export const getLaboratory = async (req, res) => {
-    try {
-        const allLaboratoryData = await laboratory.find();
-        res.status(201).json(allLaboratoryData);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
 // --> consult information for id
 export const getLaboratoryById = async (req, res) => {
     try {

@@ -3,6 +3,7 @@ import User from '../models/user.model.js'
 import jsonwebtoken from 'jsonwebtoken'
 
 // --> Function the insert user
+
 export const formData = async (req, res) => {
     try {
 
@@ -85,8 +86,12 @@ export const signIn = async (req, res) => {
 
         res.status(200).json({ message: "User existing", token: token, decoded: decoded.userId, User: existingUser })
 
+        console.log(decoded, 'token', token)
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
 }
+
+
+
 
