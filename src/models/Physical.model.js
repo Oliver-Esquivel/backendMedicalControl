@@ -71,7 +71,13 @@ const PhysicalExploration = new Schema({
     consistency: String,
     visceromegaly: String,
     peristalsis: String,
-    exploration_note_abd: String
+    exploration_note_abd: String,
+    user : {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+    },
+}, {
+timestamps: true
 })
 
 export default mongoose.model('exploracion_Fisica', PhysicalExploration)

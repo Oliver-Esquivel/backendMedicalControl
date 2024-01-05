@@ -66,7 +66,13 @@ const formData = new Schema({
     syphilises: Boolean,
     ulcers: Boolean,
     lithiasis: Boolean,
-    other_illness: Boolean
+    other_illness: Boolean,
+    user : {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+    },
+}, {
+timestamps: true
 })
 
 export default mongoose.model('examen_Medico', formData)

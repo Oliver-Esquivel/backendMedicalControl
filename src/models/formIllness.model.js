@@ -66,6 +66,12 @@ const formIllness = new Schema({
     hematologic_: Boolean,
     skeletal_muscle: Boolean,
     psychiatrist_: Boolean,
+    user : {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+    },
+}, {
+timestamps: true
 })
 export default mongoose.model('Personal_patologico', formIllness)
 

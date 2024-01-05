@@ -53,8 +53,13 @@ const GenitalesLaboratorio = new Schema({
     stool_test: String,
     xii_diagnosis: String,
     xiii_treatment: String,
-    xiv_comments: String
-
+    xiv_comments: String,
+    user : {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+    },
+}, {
+timestamps: true
 })
 
 export default mongoose.model('examen_Laboratorio_Genitales', GenitalesLaboratorio)
