@@ -1,10 +1,12 @@
 import { Router}  from "express";
-import { addPhysical, dropPhysical, getPhysicalById } from "../controllers/authPhysical.controller.js";
-
+import { getPhysical, createPhysical, deletePhysical } from "../controllers/authPhysical.controller.js";
+import { authRequire } from "../middlewares/validateToken.js";
 const physical = Router()
 
-physical.get('/:physicalId', getPhysicalById)
-physical.post('/', addPhysical)
-physical.delete('/:physicalId', dropPhysical)
+physical.get('/', [authRequire], getPhysical)
+
+physical.post('/', [authRequire], createPhysical)
+
+physical.delete('/:physicalId', [authRequire], deletePhysical)
 
 export default  physical

@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { addLaboratory, dropLaboratory, getLaboratoryById } from "../controllers/authlaboratory.controller.js";
-import { authenticated } from "../middlewares/examenMedico.middleware.js";
+import { getLaboratory ,createLaboratory, deleteLaboratory } from "../controllers/authlaboratory.controller.js";
+import { authRequire } from "../middlewares/validateToken.js";
 const laboratory = Router()
 
-laboratory.get('/:laboratoryId', getLaboratoryById)
-laboratory.post('/',[authenticated], addLaboratory)
-laboratory.delete('/laboratoryId',[authenticated], dropLaboratory)
+laboratory.get('/' , [authRequire] , getLaboratory)
 
+laboratory.post('/', [authRequire] , createLaboratory)
+
+laboratory.delete('/:laboratoryId' , [authRequire], deleteLaboratory)
 export default laboratory

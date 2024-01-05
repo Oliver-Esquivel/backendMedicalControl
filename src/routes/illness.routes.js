@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { addIllness, dropIllness, getIllnessById } from "../controllers/authIllness.controllers.js";
-import { authenticated } from "../middlewares/examenMedico.middleware.js";
+import { getIllness ,createIllness , deleteIllness} from "../controllers/authIllness.controllers.js";
+import { authRequire } from "../middlewares/validateToken.js";
 const illness = Router();
 
-illness.get('/:illnessId', getIllnessById)
-illness.post('/',[authenticated], addIllness)
-illness.delete('/:illnessId',[authenticated], dropIllness)
+illness.get('/', [authRequire], getIllness)
 
+illness.post('/' , [authRequire], createIllness)
+
+illness.delete('/:illnessId',[authRequire] , deleteIllness)
 
 export default illness

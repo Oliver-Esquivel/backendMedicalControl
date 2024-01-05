@@ -1,11 +1,11 @@
-
-import { dataClinic, deleteConsult, getDataClinicById } from "../controllers/authForm.controllers.js";
 import { Router } from "express";
-import { authenticated, validateDataPatient } from "../middlewares/examenMedico.middleware.js";
+import { createExam, getExam } from "../controllers/authForm.controllers.js";
+import { authRequire } from "../middlewares/validateToken.js";
 
 const examen = Router()
-examen.get('/:userId', getDataClinicById)
-examen.post('/',[authenticated, validateDataPatient],dataClinic)
-examen.delete('/:userId', deleteConsult)
+
+examen.get('/',[authRequire],getExam)
+
+examen.post('/', [authRequire], createExam)
 
 export default examen
