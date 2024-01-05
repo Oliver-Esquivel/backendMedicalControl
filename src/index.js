@@ -1,8 +1,8 @@
 import app from "./app.js";
-import { connectDB } from './bd.js'; // importamos la funcion de la conexion ala base de datos
+import { connectDB } from './bd.js'; // import connect the data base
 
 connectDB();
-//inicamos el servidor 
+//connect on services
 app.listen(4000)
 
 
