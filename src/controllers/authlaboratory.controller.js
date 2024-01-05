@@ -1,8 +1,17 @@
 import mongoose from "mongoose";
 import laboratory from '../models/laboratorioGenitales.model.js'
 
+export const getLaboratory = async (req, res) => {
+    try {
+        const getLaboratory = await laboratory.find()
+        res.json(getLaboratory)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
 // -->Insert data Examen Laboratory 
-export const addLaboratory = async (req, res) => {
+export const createLaboratory = async (req, res) => {
     try {
         const {
             shape, skin_Genitals, mass, lymph_nodes, pain, structure_sup,
@@ -22,7 +31,7 @@ export const addLaboratory = async (req, res) => {
 
         console.log(req.body);
 
-        const addLaboratoryInstance = new laboratory({
+        const newLaboratoryInstance = new laboratory({
             shape, skin_Genitals, mass, lymph_nodes, pain, structure_sup,
             skin_Sup, pulse, reflexes, sensitivity, muscular_strength,
             other_characteristics_Sup, hands, nails, structure, skin_Inf,
@@ -35,30 +44,23 @@ export const addLaboratory = async (req, res) => {
             memory, language, exploration_note_Psi,
             cbc_complete_blood_count, qs_quick_screening, blood_type_and_rh_factor,
             ego, audiometry, chest_xray, spine_xray, pharyngeal_swab, stool_test,
-            xii_diagnosis, xiii_treatment, xiv_comments
+            xii_diagnosis, xiii_treatment, xiv_comments,
+            user: req.user.id
         });
 
-        const saveLab = await addLaboratoryInstance.save();
+        const saveLab = await newLaboratoryInstance.save();
 
-        res.status(201).json({ saveLab });
+        res.status(201).json({ message: "examen de laboratorio",  saveLab });
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
 // --> consult information for id
-export const getLaboratoryById = async (req, res) => {
-    try {
-        console.log(mongoose.Types.ObjectId.isValid(req.params.laboratoryId))
-        const getLaboratoryById = await laboratory.findById(req.params.laboratoryId)
-        if(!getLaboratoryById) return res.status(404).json({message: "Examen the laboratory not exist"})
-        res.status(200).json({message: "Examen de laboratorio ", getLaboratoryById})
-    } catch (error) {
-        res.status(500).json({message: error.message})
-    }
-}
+
 // eliminate register the laboratory
-export const dropLaboratory= async (req, res) => {
+export const deleteLaboratory= async (req, res) => {
     try {
         await laboratory.findByIdAndDelete(req.params.laboratoryId)
         return  res.status(204).json({message: "Exam the laboratory eliminated"})

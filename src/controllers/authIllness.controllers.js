@@ -1,8 +1,16 @@
 import mongoose from "mongoose";
 import illness from '../models/formIllness.model.js'
 
+export const getIllness = async (req, res) => {
+    try {
+        const getIllness = await illness.find()
+        res.json(getIllness)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
 // --> SAVE ILLNESS DATA
-export const addIllness = async (req, res) => {
+export const createIllness = async (req, res) => {
     try {
         const {
             allergic,
@@ -135,28 +143,18 @@ export const addIllness = async (req, res) => {
             endocrine,
             hematologic_,
             skeletal_muscle,
-            psychiatrist_
+            psychiatrist_,
+            user: req.user.id
         })
         const savedIllness = await addIllness.save()
-        res.status(200).json({ savedIllness })
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-}
-export const getIllnessById = async (req, res) => {
-    try {
 
-        console.log(mongoose.Types.ObjectId.isValid(req.params.illnessId))
-        const getIllnessId = await illness.findById(req.params.illnessId)
-        if (!getIllnessId) return res.status(404).json({ message: "Id not found" })
-        res.status(200).json(getIllnessId)
-
+        res.status(200).json({message: "Examen de enfermedades", savedIllness })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
 }
 // --> Function for eliminated register the illness
-export const dropIllness = async (req, res) => {
+export const deleteIllness = async (req, res) => {
     try {
         await illness.findByIdAndDelete(req.params.illnessId)
         return res.status(204).json({ message: "Illness Eliminated" })

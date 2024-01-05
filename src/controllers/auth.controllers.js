@@ -1,97 +1,87 @@
-import mongoose from 'mongoose'
 import User from '../models/user.model.js'
-import jsonwebtoken from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import { createAccessToken } from '../libs/jwt.js'
 
-// --> Function the insert user
-
-export const formData = async (req, res) => {
+/*
+function to create a user with an authentication token
+*/
+export const register = async (req, res) =>{
     try {
-
-        const { username, email, password } = req.body  //-> 
-        console.log(req.body)
+        const {email, password, username} = req.body
+        const passwordHash = await bcrypt.hash(password, 10)
+        
         const newUser = new User({
             username,
             email,
-            password
+            password: passwordHash
         })
-        const savedUser = await newUser.save()
-
-        res.status(201).json({ savedUser });
-    } catch (e) {
-        res.status(500).json({ message: e.message });
-    }
-}
-//->  function the show patients
-export const getUser = async (req, res) => {
-    try {
-        const user = await User.find()
-        res.status(200).json(user)
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-}
-//-> 
-export const getUserById = async (req, res) => {
-
-    try {
-        console.log(mongoose.Types.ObjectId.isValid(req.params.userId))
-        const user = await User.findById(req.params.userId)
-        if (!user) return res.status(404).json({ message: "user not register" })
-        res.status(200).json(user)
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-}
-//-> update data
-export const updateUser = async (req, res) => {
-    try {
-        const updateUser = await User.findByIdAndUpdate(req.params.userId, {
-            ...req.body
-        }, {
-            new: true
+        const userSaved = await newUser.save()
+        const token = await createAccessToken({id: userSaved._id}) //we import our function that creates the token and does it through the id
+        res.cookie("token", token)  // we send the token to the headers
+       
+        res.json({
+            id: userSaved._id,
+            username: userSaved.username,
+            email: userSaved.email
         })
-        res.status(200).json(updateUser)
 
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({message: "error  in create user"})
     }
 }
+//login function 
 
-//->  Eliminate user
-export const deleteUser = async (req, res) => {
+export const login = async (req, res)=>{
+try {
+    const {email, password} = req.body
+
+    const userFound = await User.findOne({email})
+    if(!userFound) return res.status(400).json({message: "user not found"})
+ // searches if the email and password match any records
+    const isMatch = bcrypt.compare(password, userFound.password)
+    if(!isMatch) return res.status(400).json({message: "incorrect password"})
+
+
+    const token = await createAccessToken({id: userFound._id})
+//if it does so, it creates a token and sends it to the head-end.
+    res.cookie("token" , token)
+
+    res.json({
+        id: userFound._id,
+        username: userFound.username,
+        email: userFound.email
+    })
+console.log(token)
+} catch (error) {
+    res.status(500).json({message: "error in create user"})
+}
+}
+
+//function to close the session 
+export const logout = async (req, res) => {
     try {
-        await User.findByIdAndDelete(req.params.userId)
-        return res.status(204).json({ message: "user eliminated" })
+        res.cookie("token", "", { // sends to the header an empty token 
+            expires: new Date(0) 
+        })
+        res.status(200).json({message: "session close"})
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500). json({message: "algo fail"})
     }
 }
-//  -> function for access the password and email
-export const signIn = async (req, res) => {
+
+// function to protect a route
+
+export const profile = async (req, res) =>{
     try {
-        const { username, password } = req.body
-        //verify if the user exist
-        const existingUser = await User.findOne({ username })
+        const userFound = await User.findById(req.user.id)
 
-        if (!existingUser) return res.status(404).json({ message: "user not found" })
-        // verify if the password
-        const passwordValid = await User.findOne({ password })
-        if (!passwordValid) return res.status(404).json({ message: "password incorrect" })
-        // -> if the user existing
-        //-> in payload use the _id 
-        const token = jsonwebtoken.sign({ userId: existingUser._id }, 'Hola', { expiresIn: '1h' })
+        if(!userFound) return res.status(400).json({message: "user not found"})
 
-        // -> 
-       const decoded = jsonwebtoken.decode(token, 'Hola')
-
-        res.status(200).json({ message: "User existing", token: token, decoded: decoded.userId, User: existingUser })
-
-        console.log(decoded, 'token', token)
+        return res.json({
+        id: userFound._id,
+        username: userFound.username
+    })
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({message: error.message})
     }
 }
-
-
-
-
