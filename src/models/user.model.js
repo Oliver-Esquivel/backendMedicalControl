@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from 'bcryptjs' //-> 
 
 const userSchema = new Schema({
-    username :{
+    user :{
         type : String,
         //require : true, // require data complete
         trim: true,     // eliminate the spaces
